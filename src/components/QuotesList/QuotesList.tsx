@@ -34,6 +34,15 @@ const QuotesList = () => {
     })();
   }, []);
 
+  const handleDeleteClick = async (id: string) => {
+    try {
+      await axiosApi.delete(`/quotes/${id}.json`);
+      setQuotes(prevQuotes => prevQuotes.filter(quote => quote.id !== id));
+    } catch (error) {
+      console.error('Error deleting quote:', error);
+    }
+  };
+
   const handleEditClick = (quote: Quote) => {
     setEditingQuote(quote);
   };
@@ -53,6 +62,7 @@ const QuotesList = () => {
           <li key={quote.id}>
             <strong>{quote.category}:</strong> {quote.text} — <em>{quote.author}</em>
             <button onClick={() => handleEditClick(quote)}>Edit</button>
+            <button onClick={() => handleDeleteClick(quote.id)}>Delete</button>
           </li>
         ))}
       </ul>
