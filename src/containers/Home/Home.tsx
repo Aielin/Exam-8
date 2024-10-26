@@ -1,12 +1,10 @@
 import QuotesList from '../../components/QuotesList/QuotesList.tsx';
-import AddQuoteForm from '../../components/AddQuoteForm/AddQuoteForm.tsx';
-
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
     <div className="container">
-      <h1>Quotes App</h1>
-      <AddQuoteForm/>
+      <Link to="/add-quote">Submit new quote</Link>
       <QuotesList/>
     </div>
   );
