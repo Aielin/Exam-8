@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axiosApi from '../../axiosAPI.ts';
+import EditQuoteForm from '../EditQuoteForm/EditQuoteForm.tsx';
 
 
 interface Quote {
@@ -11,6 +12,7 @@ interface Quote {
 
 const QuotesList = () => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -32,13 +34,25 @@ const QuotesList = () => {
     })();
   }, []);
 
+  const handleEditClick = (quote: Quote) => {
+    setEditingQuote(quote);
+  };
+
+  const handleCloseEditForm = () => {
+    setEditingQuote(null);
+  };
+
   return (
     <div>
       <h2>Quotes List</h2>
+      {editingQuote && (
+        <EditQuoteForm quote={editingQuote} onClose={handleCloseEditForm} />
+      )}
       <ul>
         {quotes.map((quote) => (
           <li key={quote.id}>
             <strong>{quote.category}:</strong> {quote.text} — <em>{quote.author}</em>
+            <button onClick={() => handleEditClick(quote)}>Edit</button>
           </li>
         ))}
       </ul>
