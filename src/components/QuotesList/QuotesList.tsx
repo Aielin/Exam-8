@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axiosApi from '../../axiosAPI.ts';
 import EditQuoteForm from '../EditQuoteForm/EditQuoteForm.tsx';
+import Categories from '../Categories/Categories.tsx';
 
 
 interface Quote {
@@ -13,6 +14,7 @@ interface Quote {
 const QuotesList = () => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
     (async () => {
@@ -51,14 +53,23 @@ const QuotesList = () => {
     setEditingQuote(null);
   };
 
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+  };
+
+  const filteredQuotes = selectedCategory === 'All'
+    ? quotes
+    : quotes.filter((quote) => quote.category === selectedCategory);
+
   return (
     <div>
       <h2>Quotes List</h2>
+      <Categories selectedCategory={selectedCategory} onSelectCategory={handleCategorySelect} />
       {editingQuote && (
         <EditQuoteForm quote={editingQuote} onClose={handleCloseEditForm} />
       )}
       <ul>
-        {quotes.map((quote) => (
+        {filteredQuotes.map((quote) => (
           <li key={quote.id}>
             <strong>{quote.category}:</strong> {quote.text} — <em>{quote.author}</em>
             <button onClick={() => handleEditClick(quote)}>Edit</button>
