@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface CategoriesProps {
   selectedCategory: string;
@@ -14,12 +15,13 @@ const Categories: React.FC<CategoriesProps> = ({ selectedCategory, onSelectCateg
       <ul>
         {categories.map((category) => (
           <li key={category}>
-            <button
-              style={{ fontWeight: selectedCategory === category ? 'bold' : 'normal' }}
+            <Link
+              to={`/quotes/${category.replace(/\s+/g, '_').toLowerCase()}`}
               onClick={() => onSelectCategory(category)}
+              style={{fontWeight: selectedCategory === category ? 'bold' : 'normal'}}
             >
               {category}
-            </button>
+            </Link>
           </li>
         ))}
       </ul>

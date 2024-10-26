@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axiosApi from '../../axiosAPI.ts';
 import EditQuoteForm from '../EditQuoteForm/EditQuoteForm.tsx';
 import Categories from '../Categories/Categories.tsx';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 interface Quote {
@@ -15,6 +16,8 @@ const QuotesList = () => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const navigate = useNavigate();
+  const { category } = useParams<{ category: string }>();
 
   useEffect(() => {
     (async () => {
@@ -36,6 +39,14 @@ const QuotesList = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (category) {
+      setSelectedCategory(category.replace(/_/g, ' '));
+    } else {
+      setSelectedCategory('All');
+    }
+  }, [category]);
+
   const handleDeleteClick = async (id: string) => {
     try {
       await axiosApi.delete(`/quotes/${id}.json`);
@@ -53,13 +64,18 @@ const QuotesList = () => {
     setEditingQuote(null);
   };
 
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
+  const handleCategorySelect = (selectedCategory: string) => {
+    setSelectedCategory(selectedCategory);
+    if (selectedCategory === 'All') {
+      navigate('/quotes');
+    } else {
+      navigate(`/quotes/${selectedCategory.toLowerCase()}`);
+    }
   };
 
   const filteredQuotes = selectedCategory === 'All'
     ? quotes
-    : quotes.filter((quote) => quote.category === selectedCategory);
+    : quotes.filter((quote) => quote.category.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
     <div>
