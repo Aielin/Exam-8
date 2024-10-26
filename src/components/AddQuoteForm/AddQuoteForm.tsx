@@ -7,6 +7,8 @@ const AddQuoteForm = () => {
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
 
+  const categories: string[] = ['Star Wars', 'Famous people', 'Saying', 'Humour', 'Motivational'];
+
   const addQuote = async () => {
     try {
       const newQuote = { category, author, text };
@@ -24,12 +26,16 @@ const AddQuoteForm = () => {
   return (
     <div>
       <h3>Add a Quote</h3>
-      <input
-        type="text"
-        placeholder="Category"
+      <select
         value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      />
+        onChange={(e) => setCategory(e.target.value)}>
+        <option value="">Select Category</option>
+        {categories.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
       <input
         type="text"
         placeholder="Author"
