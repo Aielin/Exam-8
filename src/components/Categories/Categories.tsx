@@ -11,8 +11,7 @@ const Categories: React.FC<CategoriesProps> = ({ selectedCategory, onSelectCateg
 
   return (
     <div>
-      <h3>Quotes Central</h3>
-      <ul>
+      <ul className="list-group">
         {categories.map((category) => (
           <li key={category}>
             <Link

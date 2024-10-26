@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import AddQuoteForm from './components/AddQuoteForm/AddQuoteForm.tsx';
 import ToolBar from './components/ToolBar/ToolBar.tsx';
 import QuotesList from './components/QuotesList/QuotesList.tsx';
+import './App.css';
 
 const App = () => {
   return (

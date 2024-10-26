@@ -3,6 +3,7 @@ import axiosApi from '../../axiosAPI.ts';
 import EditQuoteForm from '../EditQuoteForm/EditQuoteForm.tsx';
 import Categories from '../Categories/Categories.tsx';
 import { useNavigate, useParams } from 'react-router-dom';
+import './QuotesList.css';
 
 
 interface Quote {
@@ -66,11 +67,7 @@ const QuotesList = () => {
 
   const handleCategorySelect = (selectedCategory: string) => {
     setSelectedCategory(selectedCategory);
-    if (selectedCategory === 'All') {
-      navigate('/quotes');
-    } else {
-      navigate(`/quotes/${selectedCategory.toLowerCase()}`);
-    }
+    navigate(`/quotes/${category}`);
   };
 
   const filteredQuotes = selectedCategory === 'All'
@@ -78,18 +75,17 @@ const QuotesList = () => {
     : quotes.filter((quote) => quote.category.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
-    <div>
-      <h2>Quotes List</h2>
+    <div className="container mt-4">
       <Categories selectedCategory={selectedCategory} onSelectCategory={handleCategorySelect} />
       {editingQuote && (
         <EditQuoteForm quote={editingQuote} onClose={handleCloseEditForm} />
       )}
-      <ul>
+      <ul className="list-group mt-3">
         {filteredQuotes.map((quote) => (
-          <li key={quote.id}>
+          <li key={quote.id} className="border border-primary mb-3 p-4 quote-list">
             <strong>{quote.category}:</strong> {quote.text} — <em>{quote.author}</em>
-            <button onClick={() => handleEditClick(quote)}>Edit</button>
-            <button onClick={() => handleDeleteClick(quote.id)}>Delete</button>
+            <button className="btn btn-outline-primary btn-sm float-end ms-2" onClick={() => handleEditClick(quote)}>Edit</button>
+            <button className="btn btn-outline-danger btn-sm float-end" onClick={() => handleDeleteClick(quote.id)}>Delete</button>
           </li>
         ))}
       </ul>

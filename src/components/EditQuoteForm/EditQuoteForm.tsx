@@ -26,22 +26,37 @@ const EditQuoteForm: React.FC<EditQuoteFormProps> = ({ quote, onClose }) => {
   };
 
   return (
-    <div>
+    <div className="container mt-4">
       <h2>Edit Quote</h2>
-      <div>
-        <label>Category:</label>
-        <input value={category} onChange={(e) => setCategory(e.target.value)} />
+      <div className="mb-3">
+        <label htmlFor="category" className="form-label">Category:</label>
+        <input
+          type="text"
+          className="form-control"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        />
       </div>
-      <div>
-        <label>Author:</label>
-        <input value={author} onChange={(e) => setAuthor(e.target.value)} />
+      <div className="mb-3">
+        <label htmlFor="author" className="form-label">Author:</label>
+        <input
+          type="text"
+          className="form-control"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        />
       </div>
-      <div>
-        <label>Quote Text:</label>
-        <textarea value={text} onChange={(e) => setText(e.target.value)} />
+      <div className="mb-3">
+        <label htmlFor="text" className="form-label">Quote Text:</label>
+        <textarea
+          className="form-control"
+          rows={4}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
       </div>
-      <button onClick={handleEditQuote}>Save</button>
-      <button onClick={onClose}>Cancel</button>
+      <button className="btn btn-primary me-2" onClick={handleEditQuote}>Save</button>
+      <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
     </div>
   );
 };
